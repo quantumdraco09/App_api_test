@@ -223,7 +223,7 @@ class _LoginScreenState extends State<SignUpScreen> {
                               // Log In button
                               InkWell(
                                 onTap: () {
-                                  // signupController.signupApi();
+                                  signupController.signupApi();
                                   print('sign up api hit');
                                 },
                                 child: Container(

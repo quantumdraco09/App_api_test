@@ -15,6 +15,7 @@ class NetworkApiService extends BaseApiServices {
       final response = await http
           .post(
             Uri.parse(url),
+           
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json'
@@ -42,14 +43,15 @@ class NetworkApiService extends BaseApiServices {
     dynamic responseJson;
 
     try {
-      // Map test = {"username": "johndoe", "password": "password123"};
+     
 
       final response = await http
           .get(
-            Uri.parse(url),
+            // Uri.parse(url),
+            Uri.parse('https://mocki.io/v1/2a6abd32-cb20-4662-9c0b-f4a832437b56'),
             headers: {
-          'Authorization': 'Bearer $token',  // Pass the token here
-          'Content-Type': 'application/json',  // Set content type as JSON
+          'Authorization': 'Bearer $token', 
+          'Content-Type': 'application/json',  
         },
           )
           .timeout(const Duration(seconds: 10));
@@ -59,7 +61,7 @@ class NetworkApiService extends BaseApiServices {
 
       responseJson = returnResponse(response);
 
-      print(responseJson);
+      print('response json fron network api service is $responseJson');
     } catch (e) {
       print('inside catch block happened this : $e');
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/pages/login_screen.dart';
-import 'package:food_delivery/pages/splash_screen.dart';
+import 'package:food_delivery/pages/sign_up_scree.dart';
 import 'package:food_delivery/res/routes/routes.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-     home: LoginScreen(),
+     home: SignUpScreen(),
 
       getPages: AppRoutes.appRoutes(),
 

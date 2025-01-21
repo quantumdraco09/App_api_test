@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/login_controller.dart';
+import 'package:food_delivery/models/get_user/get_user_model.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageFromSignup extends StatefulWidget {
   HomePageFromSignup({super.key});
@@ -10,42 +14,76 @@ class HomePageFromSignup extends StatefulWidget {
 }
 
 class _HomePageFromSignupState extends State<HomePageFromSignup> {
-  List<String> list = ['shaban', 'shaikh'];
+  final LoginController homePageController = Get.put(LoginController());
+  GetUserModel? existingUser;
+
+  existingUserGet() async {
+    print('from existing userfunction');
+    existingUser = await homePageController.getUser();
+
+    print('existing user value is the $existingUser');
+    
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    final LoginController loginController = Get.put(LoginController());
-
-    loginController.getApiHit();
+    existingUserGet();
+    print('from init state');
   }
 
   @override
   Widget build(BuildContext context) {
-    final LoginController loginController = Get.put(LoginController());
-
-    // Obx(() =>
-    // ListView.builder(
-    //     // itemCount: loginController.getUserApi.value.length,
-    //     itemCount: list.length,
-    //     itemBuilder: (context, index) {
-    //       // String keys = loginController.getUserApi.keys.elementAt(index);
-    //       // String values = loginController.getUserApi[keys];
-
-    //       return ListTile(
-    //         title: Text(list[index]),
-    //         // subtitle: Text(values),
-    //       );
-    //     })
-
     return Scaffold(
-      body: Center(
-        child: Text('this is home page', style: TextStyle(fontSize: 25)),),
-      );
-    
-
-    // );
+        body: FutureBuilder(
+            future: existingUserGet(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error is ${snapshot.error}'),
+                );
+              } else {
+                return Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        existingUser!.id.toString(),
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        existingUser!.username.toString(),
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        existingUser!.email.toString(),
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        existingUser!.mobile.toString(),
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        existingUser!.role.toString(),
+                        style: TextStyle(fontSize: 25),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            })
+        //         Center(
+        //   child: Text('data'),
+        // )
+        );
   }
 }
